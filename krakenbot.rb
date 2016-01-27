@@ -6,21 +6,8 @@ require 'kraken_client'
 SIMULATION_MODE = true
 
 ###############################################
-$simulation_ether_balance = 57.0 # Fake remote ether balance
-$simulation_euro_balance = 69.0 # Fake remote euro balance
-$simulation_ether_euro_ratio = 2.58021325643
-$sim_step = 0
-
-def next_sim_step
-  if $sim_step >= SIM_DATA.count
-    puts "SIM: Finished"
-    total_euro = $euro_balance + $ether_balance * $ratio
-    puts "~~~~ INFO: Current balance: #{$ether_balance} ETH + #{$euro_balance} EUR (#{total_euro} EUR) ~~~~"
-    exit
-  end
-  $simulation_ether_euro_ratio = SIM_DATA[$sim_step][1]
-  $sim_step = $sim_step + 1
-end
+$simulation_ether_balance = 0.0 # Fake remote ether balance
+$simulation_euro_balance = 200.0 # Fake remote euro balance
 ###############################################
 
 # TODO: Add dynamic trading fees.
@@ -89,11 +76,12 @@ def cancel_all_open_orders(client)
   else
     begin
       orders = client.private.open_orders
+      # TODO: Implement cancelling open orders here.
     rescue => e
       puts e.message
     end
   end
-  puts "INFO: Cancelled all open orders."
+  #puts "INFO: Cancelled all open orders."
 end
 
 def place_buy_eth_order(client, price, volume)

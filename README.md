@@ -1,6 +1,8 @@
 # kraken-ethereum-bot
 Automatically sell and buy ethers on kraken.com.
 
+USE AT YOUR OWN RISK!
+
 License: AGPLv3
 
 If you like it, send me a tip on
