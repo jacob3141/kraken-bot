@@ -18,4 +18,4 @@ If you like it, send me a tip on
 
 3. Copy and rename config.example.rb and enter your private data.
 
-4. Run ruby krakenbot.rb.
+4. Run ruby runbot.rb.

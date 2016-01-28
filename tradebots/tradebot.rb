@@ -31,7 +31,7 @@ class Tradebot
   end
 
   def with_strategy(strategy)
-    @strategy = strategy.new.hook_up(self)
+    @strategy = strategy.hook_up(self)
     self
   end
 

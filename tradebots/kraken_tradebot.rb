@@ -45,7 +45,7 @@ class KrakenTradebot < Tradebot
   end
 
   def buy(price, volume)
-    puts "(+)(+)(+) Buying #{volume} #{@quote_currency} for #{price} #{@base_currency}/#{@quote_currency}"
+    puts "Buying #{volume} #{@quote_currency} for #{price} #{@base_currency}/#{@quote_currency}"
     if @simulation_mode
       if @ratio <= price
         price = @ratio # simulate market pricing
@@ -85,7 +85,7 @@ class KrakenTradebot < Tradebot
   end
 
   def sell(price, volume)
-    puts "(-)(-)(-) Selling #{volume} #{@quote_currency} for #{price} #{@base_currency}/#{@quote_currency}"
+    puts "Selling #{volume} #{@quote_currency} for #{price} #{@base_currency}/#{@quote_currency}"
 
     if @simulation_mode
       if @ratio >= price
@@ -166,16 +166,4 @@ class KrakenTradebot < Tradebot
     quote_currency * 0.0026
   end
 
-  # def cancel_all_open_orders(client)
-  #   if SIMULATION_MODE
-  #   else
-  #     begin
-  #       orders = client.private.open_orders
-  #       # TODO: Implement cancelling open orders here.
-  #     rescue => e
-  #       puts e.message
-  #     end
-  #   end
-  #   #puts "INFO: Cancelled all open orders."
-  # end
 end

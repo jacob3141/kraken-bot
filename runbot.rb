@@ -18,15 +18,23 @@
 require 'multi_json'
 require 'kraken_client'
 
-require './kraken_tradebot'
-require './conservative_strategy'
+require 'tradebots/kraken_tradebot'
+require 'strategies/conservative_strategy'
 require './config.rb'
 
-kraken_tradebot = KrakenTradebot.new
-  .with_kraken_client(KrakenClient.load)
-  .with_base_currency('ZEUR')
-  .with_quote_currency('XETH')
-  .with_strategy(ConservativeStrategy)
+kraken_tradebot = KrakenTradebot.new.
+  with_kraken_client(KrakenClient.load).
+  with_base_currency('ZEUR').
+  with_quote_currency('XETH').
+  with_strategy(
+    ConservativeStrategy.new.
+      with_buying_ratio(0.5). # Use 50% of available funds to buy.
+      buying_under(0.3). # Buy below 30% of price range.
+      with_selling_ratio(0.8). # Sell 80% at once.
+      selling_over(0.95). # Sell over 95% of price range.
+      at_auto_range. # Adjust range automatically.
+      and_only_sell_after_pushing_high # Sell after returning from upper range.
+  )
   #.in_simulation_mode
 
 while true do
