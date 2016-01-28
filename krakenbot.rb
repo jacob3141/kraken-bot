@@ -24,13 +24,13 @@ require './config.rb'
 
 kraken_tradebot = KrakenTradebot.new
   .with_kraken_client(KrakenClient.load)
-  .with_base_currency('XETH')
-  .with_quote_currency('ZEUR')
+  .with_base_currency('ZEUR')
+  .with_quote_currency('XETH')
   .with_strategy(ConservativeStrategy)
-  .in_simulation_mode
+  #.in_simulation_mode
 
 while true do
   puts "---------------#{Time.now}--------------------"
   kraken_tradebot.poll
-  sleep 15
+  sleep 5
 end

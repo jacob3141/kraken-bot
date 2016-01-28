@@ -21,60 +21,42 @@ class ConservativeStrategy < Stragegy
   def initialize
     @ratio_memory = []
 
-    @strategy = :waiting
-    @buy_threshold = 0.01
-    @sell_threshold = 0.01
-    @buy_risk_distribution = 0.4
-    @sell_risk_distribution = 0.6
-    @average_size = 3
+    @buy_risk_distribution = 0.5
+    @sell_risk_distribution = 0.8
+    @pushing_up = false
   end
 
   def poll
-    @ratio_memory << @tradebot.ratio
-    @ratio_memory.shift unless @ratio_memory.size <= @average_size
-    ratio_average = @ratio_memory.inject{ |sum, el| sum + el }.to_f / @ratio_memory.size
-    puts "AVERAGE RATIO: #{ratio_average}"
+    range = @tradebot.high - @tradebot.low
+    buy_under = (@tradebot.low + range * 0.3)
+    sell_over = (@tradebot.high - 0.02)
 
-    tendency = @tradebot.ratio - ratio_average
-    puts "RATIO ABOVE AVERAGE: #{tendency}"
+    puts "Buying under #{buy_under}, selling over #{sell_over}, pushed up: #{@pushing_up}"
 
-    @strategy = :waiting
-
-    if tendency < -@sell_threshold
-      @strategy = :selling
-
-      if @tradebot.quote_currency_balance == 0.0
-        @ratio_memory = [] << @tradebot.ratio
-        @strategy = :waiting
-      end
-    end
-
-    if tendency > @buy_threshold
-      @strategy = :buying
-
-      if @tradebot.quote_currency_balance > 0.0
-        @ratio_memory = [] << @tradebot.ratio
-      end
-    end
-
-    puts "RATIO MEMORY SIZE: #{@ratio_memory.length}, STRATEGY: :#{@strategy}"
-
-    case @strategy
-    when :buying
+    if @tradebot.ratio < buy_under
+      @pushing_up = false
       if @tradebot.base_currency_balance > 0
         amount = @tradebot.base_currency_balance / @tradebot.ratio * @buy_risk_distribution
         if amount > 1
-          @tradebot.buy(@tradebot.ratio, amount)
+         @tradebot.buy(@tradebot.ratio, amount)
         end
       end
-    when :selling
-      if @tradebot.quote_currency_balance > 0
-        amount = @tradebot.quote_currency_balance * @sell_risk_distribution
-        if amount > 1
-          @tradebot.sell(@tradebot.ratio, amount)
+    else
+
+      if @tradebot.ratio > sell_over && !@pushing_up
+        @pushing_up = true
+      end
+
+      if @tradebot.ratio < sell_over && @pushing_up
+        if @tradebot.quote_currency_balance > 0
+          amount = @tradebot.quote_currency_balance * @sell_risk_distribution
+          if amount > 1
+           @tradebot.sell(@tradebot.ratio, amount)
+          end
         end
       end
-    when :waiting
+
     end
+
   end
 end

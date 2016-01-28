@@ -70,7 +70,7 @@ class KrakenTradebot < Tradebot
       begin
         @kraken_client.private.add_order(
           {
-            pair: "#{@base_currency}#{@quote_currency}",
+            pair: "#{@quote_currency}#{@base_currency}",
             type: 'buy',
             ordertype: 'market',
             price: price,
@@ -111,7 +111,7 @@ class KrakenTradebot < Tradebot
       begin
         @kraken_client.private.add_order(
           {
-            pair: "#{@base_currency}#{@quote_currency}",
+            pair: "#{@quote_currency}#{@base_currency}",
             type: 'sell',
             ordertype: 'market',
             price: price,
@@ -149,10 +149,12 @@ class KrakenTradebot < Tradebot
 
   def update_ratio
     begin
-      currency_string = "#{@base_currency}#{@quote_currency}"
+      currency_string = "#{@quote_currency}#{@base_currency}"
+      @low = @kraken_client.public.ticker(currency_string)[currency_string]["l"][0].to_f
+      @high = @kraken_client.public.ticker(currency_string)[currency_string]["h"][0].to_f
       @ratio = @kraken_client.public.ticker(currency_string)[currency_string]["c"][0].to_f
     rescue => e
-      puts e.message
+      puts "UPDATE RATIO: #{e.message}"
       return false
     end
 

@@ -51,6 +51,14 @@ class Tradebot
     @ratio
   end
 
+  def low
+    @low
+  end
+
+  def high
+    @high
+  end
+
   def buy(price, volume)
     raise "Must be implemented on subclass."
   end
