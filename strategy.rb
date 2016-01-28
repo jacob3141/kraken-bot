@@ -15,22 +15,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-require 'multi_json'
-require 'kraken_client'
+class Stragegy
+  def hook_up(tradebot)
+    @tradebot = tradebot
+    self
+  end
 
-require './kraken_tradebot'
-require './conservative_strategy'
-require './config.rb'
-
-kraken_tradebot = KrakenTradebot.new
-  .with_kraken_client(KrakenClient.load)
-  .with_base_currency('XETH')
-  .with_quote_currency('ZEUR')
-  .with_strategy(ConservativeStrategy)
-  .in_simulation_mode
-
-while true do
-  puts "---------------#{Time.now}--------------------"
-  kraken_tradebot.poll
-  sleep 15
+  def poll
+    raise "Must be implemented on subclass."
+  end
 end
