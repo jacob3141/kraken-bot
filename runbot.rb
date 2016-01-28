@@ -18,8 +18,8 @@
 require 'multi_json'
 require 'kraken_client'
 
-require 'tradebots/kraken_tradebot'
-require 'strategies/conservative_strategy'
+require './tradebots/kraken_tradebot'
+require './strategies/conservative_strategy'
 require './config.rb'
 
 kraken_tradebot = KrakenTradebot.new.
@@ -38,7 +38,6 @@ kraken_tradebot = KrakenTradebot.new.
   #.in_simulation_mode
 
 while true do
-  puts "---------------#{Time.now}--------------------"
   kraken_tradebot.poll
   sleep 5
 end

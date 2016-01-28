@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-require './strategy'
+require './strategies/strategy'
 
 # This strategy works with two limit barriers that can either be dynamic or
 # fixed. The strategy is buying below the lower barrier and either selling
@@ -91,9 +91,9 @@ class ConservativeStrategy < Stragegy
       ]
     end
 
-    puts "Buying under #{range.first}, selling over #{range.second}, pushed up: #{@pushing_up}"
+    puts "Buying under #{limits[0]}, selling over #{limits[1]}, pushed up: #{@pushing_up}"
 
-    if @tradebot.ratio < limits.first
+    if @tradebot.ratio < limits[0]
       @pushing_up = false
       if @tradebot.base_currency_balance > 0
         amount = @tradebot.base_currency_balance / @tradebot.ratio * @buying_ratio
@@ -104,11 +104,11 @@ class ConservativeStrategy < Stragegy
     else
 
       if @only_sell_after_push # sell after ratio has reached over upper limit
-        if @tradebot.ratio > limits.second && !@pushing_up
+        if @tradebot.ratio > limits[1] && !@pushing_up
           @pushing_up = true
         end
 
-        if @tradebot.ratio < limits.second && @pushing_up
+        if @tradebot.ratio < limits[1] && @pushing_up
           if @tradebot.quote_currency_balance > 0
             amount = @tradebot.quote_currency_balance * @selling_ratio
             if amount > 1
@@ -117,7 +117,7 @@ class ConservativeStrategy < Stragegy
           end
         end
       else # always sell
-        if @tradebot.ratio > limits.second
+        if @tradebot.ratio > limits[1]
           if @tradebot.quote_currency_balance > 0
             amount = @tradebot.quote_currency_balance * @selling_ratio
             if amount > 1
