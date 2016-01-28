@@ -64,14 +64,14 @@ class ConservativeStrategy < Stragegy
       if @tradebot.base_currency_balance > 0
         amount = @tradebot.base_currency_balance / @tradebot.ratio * @buy_risk_distribution
         if amount > 1
-          @tradebot.buy(@ratio, amount)
+          @tradebot.buy(@tradebot.ratio, amount)
         end
       end
     when :selling
       if @tradebot.quote_currency_balance > 0
         amount = @tradebot.quote_currency_balance * @sell_risk_distribution
         if amount > 1
-          @tradebot.sell(@ratio, amount)
+          @tradebot.sell(@tradebot.ratio, amount)
         end
       end
     when :waiting
