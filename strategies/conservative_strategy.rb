@@ -97,7 +97,7 @@ class ConservativeStrategy < Stragegy
       @pushing_up = false
       if @tradebot.base_currency_balance > 0
         amount = @tradebot.base_currency_balance / @tradebot.ratio * @buying_ratio
-        if amount > 1
+        if amount >= 1
          @tradebot.buy(@tradebot.ratio, amount)
         end
       end
@@ -111,7 +111,7 @@ class ConservativeStrategy < Stragegy
         if @tradebot.ratio < limits[1] && @pushing_up
           if @tradebot.quote_currency_balance > 0
             amount = @tradebot.quote_currency_balance * @selling_ratio
-            if amount > 1
+            if amount >= 1
              @tradebot.sell(@tradebot.ratio, amount)
             end
           end
@@ -120,7 +120,7 @@ class ConservativeStrategy < Stragegy
         if @tradebot.ratio > limits[1]
           if @tradebot.quote_currency_balance > 0
             amount = @tradebot.quote_currency_balance * @selling_ratio
-            if amount > 1
+            if amount >= 1
              @tradebot.sell(@tradebot.ratio, amount)
             end
           end
