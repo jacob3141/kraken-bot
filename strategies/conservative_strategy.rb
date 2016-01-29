@@ -91,7 +91,7 @@ class ConservativeStrategy < Stragegy
       ]
     end
 
-    puts "Buying under #{limits[0]}, selling over #{limits[1]}, pushed up: #{@pushing_up}"
+    puts "#{@tradebot.low}-#{@tradebot.high}: Buying under #{limits[0]}, selling over #{limits[1]}, pushed up: #{@pushing_up}"
 
     if @tradebot.ratio < limits[0]
       @pushing_up = false

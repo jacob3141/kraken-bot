@@ -150,9 +150,11 @@ class KrakenTradebot < Tradebot
   def update_ratio
     begin
       currency_string = "#{@quote_currency}#{@base_currency}"
-      @low = @kraken_client.public.ticker(currency_string)[currency_string]["l"][0].to_f
-      @high = @kraken_client.public.ticker(currency_string)[currency_string]["h"][0].to_f
-      @ratio = @kraken_client.public.ticker(currency_string)[currency_string]["c"][0].to_f
+      response = @kraken_client.public.ticker(currency_string)[currency_string]
+
+      @low = response["l"].min.to_f
+      @high = response["h"].max.to_f
+      @ratio = response["c"][0].to_f
     rescue => e
       puts "UPDATE RATIO: #{e.message}"
       return false
