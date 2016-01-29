@@ -39,5 +39,5 @@ kraken_tradebot = KrakenTradebot.new.
 
 while true do
   kraken_tradebot.poll
-  sleep 5
+  sleep 10
 end
