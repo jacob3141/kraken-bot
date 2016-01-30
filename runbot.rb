@@ -31,7 +31,7 @@ kraken_tradebot = KrakenTradebot.new.
       with_buying_ratio(0.5). # Use 50% of available funds to buy.
       buying_under(0.3). # Buy below 30% of price range.
       with_selling_ratio(0.8). # Sell 80% at once.
-      selling_over(0.8). # Sell over 95% of price range.
+      selling_over(0.9). # Sell over 95% of price range.
       at_auto_range. # Adjust range automatically.
       and_only_sell_after_pushing_high # Sell after returning from upper range.
   )
