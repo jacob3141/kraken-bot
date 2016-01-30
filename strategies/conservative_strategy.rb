@@ -95,8 +95,14 @@ class ConservativeStrategy < Stragegy
 
     if @tradebot.ratio < limits[0]
       @pushing_up = false
+
+      bottom_line = (@range.nil? ? @tradebot.low : @range.first)
+      buying_spread = limits[0] - bottom_line
+      ratio_in_spread = @tradebot.ratio - bottom_line
+      gain = 1.0 - ratio_in_spread / buying_spread
+
       if @tradebot.base_currency_balance > 0
-        amount = @tradebot.base_currency_balance * @buying_ratio / @tradebot.ratio
+        amount = @tradebot.base_currency_balance * @buying_ratio * gain * gain / @tradebot.ratio
         if amount >= 1
          @tradebot.buy(@tradebot.ratio, amount)
         end
