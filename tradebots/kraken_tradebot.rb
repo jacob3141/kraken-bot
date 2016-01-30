@@ -160,7 +160,7 @@ class KrakenTradebot < Tradebot
       return false
     end
 
-    puts "INFO: Current ratio: #{@ratio} #{@base_currency}/#{@quote_currency}"
+    puts "INFO: Current ratio: #{@ratio} #{@base_currency}/#{@quote_currency} l: #{@low} h: #{@high}"
     true
   end
 
