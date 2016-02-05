@@ -72,7 +72,7 @@ class KrakenTradebot < Tradebot
           {
             pair: "#{@quote_currency}#{@base_currency}",
             type: 'buy',
-            ordertype: 'market',
+            ordertype: 'limit',
             price: price,
             volume: volume.to_i + 1,
             trading_agreement: 'agree'
@@ -113,7 +113,7 @@ class KrakenTradebot < Tradebot
           {
             pair: "#{@quote_currency}#{@base_currency}",
             type: 'sell',
-            ordertype: 'market',
+            ordertype: 'limit',
             price: price,
             volume: volume.to_i,
             trading_agreement: 'agree'
